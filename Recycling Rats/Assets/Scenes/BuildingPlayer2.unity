@@ -3115,6 +3115,7 @@ GameObject:
   - component: {fileID: 525357982}
   - component: {fileID: 525357983}
   - component: {fileID: 525357984}
+  - component: {fileID: 525357985}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -3195,6 +3196,19 @@ MonoBehaviour:
   prefabLoadInput: {fileID: 2131297041}
   loadPrefabUI: {fileID: 315227877}
   CustomSpawnsEnabled: 1
+--- !u!114 &525357985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525357980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7393c783d5f85248aab85a208a08bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBuiltCarPrefab: {fileID: 0}
 --- !u!1 &538532451
 GameObject:
   m_ObjectHideFlags: 0
