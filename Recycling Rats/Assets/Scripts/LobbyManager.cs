@@ -2,6 +2,8 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using System.Collections;
 
 public class LobbyUI : MonoBehaviour
 {
@@ -10,11 +12,12 @@ public class LobbyUI : MonoBehaviour
     public Button startGameButton;
     public Image player1Indicator;
     public Image player2Indicator;
+    public TMP_InputField joinCodeInput;
 
     private void Start()
     {
-        hostButton.onClick.AddListener(StartHost);
-        joinButton.onClick.AddListener(StartClient);
+        hostButton.onClick.AddListener(() => StartCoroutine(StartRelayHost()));
+        joinButton.onClick.AddListener(StartRelayClient);
         startGameButton.onClick.AddListener(StartGame);
 
         startGameButton.gameObject.SetActive(false);
@@ -24,33 +27,30 @@ public class LobbyUI : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
 
+    IEnumerator StartRelayHost()
+    {
+        var task = RelayManager.Instance.CreateRelay();
+        yield return new WaitUntil(() => task.IsCompleted);
+        string joinCode = task.Result;
+        Debug.Log("Share this join code with your friend: " + joinCode);
+    }
+
+    void StartRelayClient()
+    {
+        string code = joinCodeInput.text;
+        RelayManager.Instance.JoinRelay(code);
+    }
+
     void OnClientConnected(ulong clientId)
     {
-        if (!NetworkManager.Singleton.IsServer)
-            return;
-
-        int connectedCount = NetworkManager.Singleton.ConnectedClients.Count;
-
-        if (connectedCount >= 1)
+        if (NetworkManager.Singleton.ConnectedClientsList.Count >= 1)
             player1Indicator.color = Color.green;
 
-        if (connectedCount >= 2)
+        if (NetworkManager.Singleton.ConnectedClientsList.Count >= 2)
             player2Indicator.color = Color.green;
 
-        if (NetworkManager.Singleton.IsHost && connectedCount == 2)
+        if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClientsList.Count == 2)
             startGameButton.gameObject.SetActive(true);
-    }
-
-    void StartHost()
-    {
-        NetworkManager.Singleton.StartHost();
-        Debug.Log("Host started");
-    }
-
-    void StartClient()
-    {
-        NetworkManager.Singleton.StartClient();
-        Debug.Log("Client attempting to connect");
     }
 
     void StartGame()
