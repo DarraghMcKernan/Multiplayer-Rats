@@ -44,17 +44,29 @@ public class LobbyUI : MonoBehaviour
 
     void OnClientConnected(ulong clientId)
     {
-        player1Indicator.color = Color.green;
-        player2Indicator.color = Color.green;
-
-        if (NetworkManager.Singleton.IsHost &&
-            NetworkManager.Singleton.ConnectedClientsList.Count == 2)
+        // Only run player count logic if host (server)
+        if (NetworkManager.Singleton.IsServer)
         {
-            startGameButton.gameObject.SetActive(true);
+            int connected = NetworkManager.Singleton.ConnectedClientsList.Count;
+
+            if (connected >= 1)
+                player1Indicator.color = Color.green;
+
+            if (connected >= 2)
+                player2Indicator.color = Color.green;
+
+            if (NetworkManager.Singleton.IsHost && connected == 2)
+                startGameButton.gameObject.SetActive(true);
+        }
+
+        if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        {
+            player1Indicator.color = Color.green;
+            player2Indicator.color = Color.green;
         }
     }
 
-    void StartGame()
+void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
         {
