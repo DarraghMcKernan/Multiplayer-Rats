@@ -78,6 +78,14 @@ public class LoadPart : MonoBehaviour
             Destroy(car);
         }
         renameTimer = 10;
+
+        cars = GameObject.FindGameObjectsWithTag("Right Car");
+
+        foreach (GameObject car in cars)
+        {
+            Destroy(car);
+        }
+        renameTimer = 10;
     }
 
     public void renameSpawnedCar()
@@ -91,6 +99,18 @@ public class LoadPart : MonoBehaviour
         else
         {
             Debug.LogWarning("Left Car tag does not exist :(");
+        }
+
+
+        found = GameObject.FindWithTag("Right Car");
+        if (found != null)
+        {
+            found.name = "RightCarBuild";
+            CarBuild = found;
+        }
+        else
+        {
+            Debug.LogWarning("Right Car tag does not exist :(");
         }
     }
 

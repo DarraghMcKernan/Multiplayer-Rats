@@ -18,6 +18,10 @@ public class SceneLoader : MonoBehaviour
     public void loadScene()
     {
         Car = GameObject.FindGameObjectWithTag("Left Car");
+        if(Car == null)
+        {
+            Car = GameObject.FindGameObjectWithTag("Right Car");
+        }
         cockpit = GameObject.FindGameObjectWithTag("Cockpit").GetComponent<Rigidbody>();
 
         StartCoroutine(LoadYourAsyncScene());
@@ -49,6 +53,10 @@ public class SceneLoader : MonoBehaviour
         if (Car.tag == "Left Car")
         {
             Car.transform.SetPositionAndRotation(new Vector3(-10f, 4f, 0), transform.rotation);
+        }
+        if (Car.tag == "Right Car")
+        {
+            Car.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
         }
         Car.AddComponent<CarMovement>();
         Car.AddComponent<HealthManager>();

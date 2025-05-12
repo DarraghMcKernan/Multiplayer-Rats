@@ -22,7 +22,7 @@ public class ButtonManager : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("BuildingPrototype");
+        SceneManager.LoadScene("Lubby");
     }
     public void ExitGame()
     {

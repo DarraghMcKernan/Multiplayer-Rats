@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         enemyCar = GameObject.Find("Car Prototype");
 
         enemyCarSpawn = enemyCar.transform.position;
-        enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
+        //enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
 
         enemyCarCopy.SetActive(false);
 
@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))//debug
             {
                 Destroy(enemyCar);
-                enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, this.transform.rotation);
+                //enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, this.transform.rotation);
                 enemyCar.SetActive(true);
 
                 Destroy(playerCar);
@@ -381,7 +381,7 @@ public class GameManager : MonoBehaviour
         Destroy(enemyCar);
         Destroy(playerCar);
 
-        enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
+        //enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
         enemyCar.SetActive(true);
 
         playerCar = Instantiate(playerCarCopy, playerCarSpawn, playerCarCopy.transform.rotation);

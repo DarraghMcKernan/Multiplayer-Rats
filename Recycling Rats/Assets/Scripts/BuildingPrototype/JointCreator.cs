@@ -16,6 +16,11 @@ public class JointCreator : MonoBehaviour
         cockpit = GameObject.FindGameObjectWithTag("Cockpit");
 
         CarGameObj = GameObject.FindGameObjectWithTag("Left Car");
+        if(CarGameObj == null)
+        {
+            CarGameObj = GameObject.FindGameObjectWithTag("Right Car");
+        }
+        
         carCompnents = new List<GameObject>();
 
         //get all the children but do not add ourself
