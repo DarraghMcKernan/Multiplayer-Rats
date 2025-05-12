@@ -69,7 +69,9 @@ void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("BuildScene", LoadSceneMode.Single);
+            BuildSceneLoader.Instance.LoadHostBuildScene();
+
+            BuildSceneLoader.Instance.LoadBuildSceneClientRpc();
         }
     }
 }
