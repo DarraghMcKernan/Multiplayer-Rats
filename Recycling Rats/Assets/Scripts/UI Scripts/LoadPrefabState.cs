@@ -52,7 +52,7 @@ public class LoadPrefabState : MonoBehaviour
 
             if (rb != null)
             {
-                rb.velocity = data.velocity;
+                rb.linearVelocity = data.velocity;
                 rb.angularVelocity = data.angularVelocity;
                 rb.useGravity = data.useGravity;
                 rb.isKinematic = data.isKinematic;
