@@ -12,20 +12,17 @@ public class SceneLoader : MonoBehaviour
     public GameObject Enemy;
     public Button startGameButton;
 
-    void Start()
+    IEnumerator Start()
     {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            startGameButton.gameObject.SetActive(false);
+        yield return new WaitUntil(() => BuildSceneNetworkState.Instance != null);
 
-            BuildSceneNetworkState.Instance.clientIsReady.OnValueChanged += (oldVal, newVal) =>
+        BuildSceneNetworkState.Instance.clientIsReady.OnValueChanged += (oldVal, newVal) =>
+        {
+            if (newVal)
             {
-                if (newVal)
-                {
-                    startGameButton.gameObject.SetActive(true);
-                }
-            };
-        }
+                startGameButton.gameObject.SetActive(true);
+            }
+        };
     }
 
     public void OnHostStartGame()
