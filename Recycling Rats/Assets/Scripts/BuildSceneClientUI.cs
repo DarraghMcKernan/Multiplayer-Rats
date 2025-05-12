@@ -6,30 +6,34 @@ using Unity.Netcode;
 
 public class BuildSceneClientUI : MonoBehaviour
 {
-    [Header("Assign the 'Ready' button in the Inspector")]
     public Button readyButton;
 
     void Start()
     {
-        // Hook up the button press
         if (readyButton != null)
         {
             readyButton.onClick.AddListener(OnClientReady);
         }
         else
         {
-            Debug.LogError("ReadyButton is not assigned in the inspector.");
+            Debug.LogError("ReadyButton not assigned!");
         }
     }
 
     void OnClientReady()
     {
-        // Ensure only the client sends the ready signal
-        if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        if (!NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsHost)
+            return;
+
+        if (BuildSceneNetworkState.Instance != null)
         {
             BuildSceneNetworkState.Instance.SetClientReadyServerRpc(true);
-            readyButton.interactable = false; // Disable button to prevent double sends
-            Debug.Log("Client marked as ready.");
+            readyButton.interactable = false;
+            Debug.Log("Client marked ready.");
+        }
+        else
+        {
+            Debug.LogWarning("BuildSceneNetworkState.Instance is null. This object only exists on the host.");
         }
     }
 }
