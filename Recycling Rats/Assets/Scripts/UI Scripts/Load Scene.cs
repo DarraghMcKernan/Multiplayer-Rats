@@ -18,8 +18,4 @@ public class LoadScene : MonoBehaviour
         SceneManager.LoadScene("Battle Scene");
     }
 
-    public void OnClientReadyButtonPressed()
-    {
-        BuildSceneNetworkState.Instance.SetClientReadyServerRpc(true);
-    }
 }

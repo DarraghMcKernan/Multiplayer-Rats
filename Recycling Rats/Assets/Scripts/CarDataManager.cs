@@ -18,5 +18,4 @@ public class CarDataManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
 }
