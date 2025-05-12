@@ -3580,7 +3580,7 @@ GameObject:
   - component: {fileID: 610864078}
   - component: {fileID: 610864079}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: BuildSceneNetworkState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7277,7 +7277,7 @@ GameObject:
   - component: {fileID: 1396334839}
   - component: {fileID: 1396334838}
   m_Layer: 0
-  m_Name: NetworkMNG
+  m_Name: NetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
