@@ -117,7 +117,7 @@ public class PlayButton : MonoBehaviour
         if (rb != null)
         {
             serialized.hasRigidbody = true;
-            serialized.velocity = rb.linearVelocity;
+            serialized.velocity = rb.velocity;
             serialized.angularVelocity = rb.angularVelocity;
             serialized.useGravity = rb.useGravity;
             serialized.isKinematic = rb.isKinematic;
