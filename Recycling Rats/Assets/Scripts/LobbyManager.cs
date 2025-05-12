@@ -44,7 +44,6 @@ public class LobbyUI : MonoBehaviour
 
     void OnClientConnected(ulong clientId)
     {
-        // Only run player count logic if host (server)
         if (NetworkManager.Singleton.IsServer)
         {
             int connected = NetworkManager.Singleton.ConnectedClientsList.Count;
