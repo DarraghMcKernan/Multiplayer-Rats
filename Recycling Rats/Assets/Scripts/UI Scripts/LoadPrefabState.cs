@@ -17,21 +17,21 @@ public class LoadPrefabState : MonoBehaviour
 
     public void LoadSavedState()
     {
-        if (File.Exists(savePath))
-        {
-            string jsonData = File.ReadAllText(savePath);
-            SerializableObject data = JsonUtility.FromJson<SerializableObject>(jsonData);
+        //if (File.Exists(savePath))
+        //{
+        //    string jsonData = File.ReadAllText(savePath);
+        //    SerializableObject data = JsonUtility.FromJson<SerializableObject>(jsonData);
 
-            GameObject newPrefab = Instantiate(prefabToInstantiate);
-            newPrefab.transform.localScale = data.scale;
-            DeserializeObject(newPrefab, data);
+        //    GameObject newPrefab = Instantiate(prefabToInstantiate);
+        //    newPrefab.transform.localScale = data.scale;
+        //    DeserializeObject(newPrefab, data);
 
-            Debug.Log("Prefab state loaded from: " + savePath);
-        }
-        else
-        {
-            Debug.LogWarning("No saved data found.");
-        }
+        //    Debug.Log("Prefab state loaded from: " + savePath);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("No saved data found.");
+        //}
     }
 
     void DeserializeObject(GameObject obj, SerializableObject data)

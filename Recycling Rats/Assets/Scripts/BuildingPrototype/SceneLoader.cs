@@ -36,10 +36,7 @@ public class SceneLoader : MonoBehaviour
     public void loadScene()
     {
         Car = GameObject.FindGameObjectWithTag("Left Car");
-        if (Car == null)
-        {
-            Car = GameObject.FindGameObjectWithTag("Right Car");
-        }
+        Enemy = GameObject.FindGameObjectWithTag("Right Car");
 
         cockpit = GameObject.FindGameObjectWithTag("Cockpit").GetComponent<Rigidbody>();
 
@@ -68,15 +65,22 @@ public class SceneLoader : MonoBehaviour
         {
             Car.transform.SetPositionAndRotation(new Vector3(-10f, 4f, 0), transform.rotation);
         }
-        if (Car.tag == "Right Car")
+        if (Enemy.tag == "Right Car")
         {
-            Car.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
+            Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
         }
 
         Car.AddComponent<CarMovement>();
         Car.AddComponent<HealthManager>();
+        Enemy.AddComponent<CarMovement>();
+        Enemy.AddComponent<HealthManager>();
+
+        //Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0f), transform.rotation);
+
+        SceneManager.MoveGameObjectToScene(Enemy, SceneManager.GetSceneByName(SceneName));
 
         SceneManager.MoveGameObjectToScene(Car, SceneManager.GetSceneByName(SceneName));
+
         SceneManager.UnloadSceneAsync(currentScene);
     }
 }

@@ -81,10 +81,10 @@ public class GameManager : MonoBehaviour
 
     private void setupEnemyCar()
     {
-        enemyCar = GameObject.Find("Car Prototype");
+        enemyCar = GameObject.Find("CarBuild (1)");
 
         enemyCarSpawn = enemyCar.transform.position;
-        //enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
+        enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
 
         enemyCarCopy.SetActive(false);
 
@@ -104,24 +104,24 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         dataSent = false;
-        if (Random.Range(0, 2) == 1)
-        {
-            ABTestActive = true;
-            ABTestButtonLock.gameObject.SetActive(true);
-            ABTestButtonLock2.gameObject.SetActive(true);
+        //if (Random.Range(0, 2) == 1)
+        //{
+        //    ABTestActive = true;
+        //    ABTestButtonLock.gameObject.SetActive(true);
+        //    ABTestButtonLock2.gameObject.SetActive(true);
 
-            Debug.Log("AB Test is active");
-        }
-        else
-        {
-            ABTestActive = false;
-            ABTestButtonLock.gameObject.SetActive(false);
-            ABTestButtonLock2.gameObject.SetActive(false);
+        //    Debug.Log("AB Test is active");
+        //}
+        //else
+        //{
+        //    ABTestActive = false;
+        //    ABTestButtonLock.gameObject.SetActive(false);
+        //    ABTestButtonLock2.gameObject.SetActive(false);
 
-            Debug.Log("AB Test is not active");
-        }
+        //    Debug.Log("AB Test is not active");
+        //}
 
-        enemyCar = GameObject.Find("Car Prototype");
+        enemyCar = GameObject.Find("CarBuild (1)");
         if(enemyCar.activeInHierarchy == false)
         {
             Debug.Log("wrong Enemy car was found");
@@ -381,7 +381,7 @@ public class GameManager : MonoBehaviour
         Destroy(enemyCar);
         Destroy(playerCar);
 
-        //enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
+        enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
         enemyCar.SetActive(true);
 
         playerCar = Instantiate(playerCarCopy, playerCarSpawn, playerCarCopy.transform.rotation);
@@ -412,7 +412,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log("STILL FUCKING NULL RRRAAAAHHHHHH");
         }
 
-            foreach (Transform child in enemyCar.transform)
+        foreach (Transform child in enemyCar.transform)
         {
             if (child.tag == "Cockpit")
             {
@@ -487,13 +487,13 @@ public class GameManager : MonoBehaviour
         //string jsonData = JsonUtility.ToJson(sendGameAnalytics());
         //StartCoroutine(GameAnalytics.PostMethod(jsonData));
 
-        if (dataSent == false)
-        {
-            dataSent = true;
-            Debug.Log("sending player data");
-            string jsonData = JsonUtility.ToJson(sendGameAnalytics());
-            StartCoroutine(GameAnalytics.PostMethod(jsonData));
-        }
+        //if (dataSent == false)
+        //{
+        //    dataSent = true;
+        //    Debug.Log("sending player data");
+        //    string jsonData = JsonUtility.ToJson(sendGameAnalytics());
+        //    StartCoroutine(GameAnalytics.PostMethod(jsonData));
+        //}
     }
 
     public void loadBuildScene()
