@@ -23,7 +23,7 @@ public class LoadPart : MonoBehaviour
 
     Vector3 pieceOffset;
     Vector3 piecePosition;
-    Vector3 spawnPos = new Vector3(-6,1,0);
+    Vector3 spawnPos = new Vector3(-6, 1, 0);
     float pieceSpawnOffset = 3.0f;
 
     GameObject parts;
@@ -59,11 +59,11 @@ public class LoadPart : MonoBehaviour
         {
             timer = 0;
         }
-        if(renameTimer > 0)
+        if (renameTimer > 0)
         {
             renameTimer--;
         }
-        if(renameTimer == 1)
+        if (renameTimer == 1)
         {
             renameSpawnedCar();
         }
@@ -116,26 +116,28 @@ public class LoadPart : MonoBehaviour
 
     private void Update()
     {
-        if (parts != null && partHeld == true)
+        if (parts != null && partHeld)
         {
-            
-            if (Input.touchCount > 0 && timer <=0)
+            if (Input.GetMouseButton(0))
             {
-                pieceOffset = new Vector3(0, 0, 0);
-                grabbed = true;
-                Touch touch = Input.GetTouch(0);
-                Vector3 inputPos = touch.position;
-
+                Vector3 inputPos = Input.mousePosition;
                 inputPos.z = Camera.main.nearClipPlane;
                 piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
+                grabbed = true;
             }
-            parts.transform.position = new Vector3(Mathf.Round(piecePosition.x) - pieceOffset.x, Mathf.Round(piecePosition.y) + pieceOffset.y, pieceOffset.z);
+
+            parts.transform.position = new Vector3(
+                Mathf.Round(piecePosition.x) - pieceOffset.x,
+                Mathf.Round(piecePosition.y) + pieceOffset.y,
+                pieceOffset.z
+            );
         }
 
-        if (partHeld == true && (Input.GetMouseButtonUp(0) && grabbed == true || grabbed == true && (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)) && timer <= 0)
+        if (partHeld && Input.GetMouseButtonUp(0) && grabbed && timer <= 0)
         {
             createJoint = true;
             partHeld = false;
+            grabbed = false;
         }
     }
 
@@ -146,11 +148,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
@@ -174,11 +171,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
@@ -200,11 +192,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
@@ -226,11 +213,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
@@ -252,11 +234,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
@@ -273,11 +250,11 @@ public class LoadPart : MonoBehaviour
 
     public void rotateButtoner()
     {
-        if(parts.tag == "Spike")
+        if (parts.tag == "Spike")
         {
             parts.transform.Rotate(0, 180, 0);
         }
-        if(parts.tag == "Booster")
+        if (parts.tag == "Booster")
         {
             parts.transform.Rotate(0, 180, 0);
         }
@@ -290,11 +267,6 @@ public class LoadPart : MonoBehaviour
             timer = 10;
             partHeld = true;
             Vector3 inputPos = Input.mousePosition;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                inputPos = touch.position;
-            }
             inputPos.z = Camera.main.nearClipPlane;
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
