@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ClientReadyCommunicator : MonoBehaviour
+public class ClientReadyCommunicator : NetworkBehaviour
 {
     [ServerRpc]
     public void SendReadyServerRpc()
@@ -19,3 +19,4 @@ public class ClientReadyCommunicator : MonoBehaviour
         }
     }
 }
+

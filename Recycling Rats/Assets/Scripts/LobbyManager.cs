@@ -65,13 +65,12 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-void StartGame()
+    void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            BuildSceneLoader.Instance.LoadHostBuildScene();
-
-            BuildSceneLoader.Instance.LoadBuildSceneClientRpc();
+            // Properly load the same scene for everyone using Netcode for GameObjects
+            NetworkManager.Singleton.SceneManager.LoadScene("Building", LoadSceneMode.Single);
         }
     }
 }
