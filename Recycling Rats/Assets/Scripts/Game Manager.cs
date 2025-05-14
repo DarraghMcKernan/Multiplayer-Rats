@@ -69,8 +69,10 @@ public class GameManager : MonoBehaviour
 
     public static bool ABTestActive = false;
 
+
     public void StartGame()
     {
+
         allowedToStart = true;
 
         enemyCar.SetActive(true);

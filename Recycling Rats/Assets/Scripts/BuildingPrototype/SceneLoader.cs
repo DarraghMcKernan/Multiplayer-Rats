@@ -12,6 +12,14 @@ public class SceneLoader : NetworkBehaviour
     public GameObject Enemy;
     public Button startGameButton;
 
+    public NetworkVariable<bool> isClientReady = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
+    private NetworkVariable<bool> clientReadyNetVar = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
     IEnumerator Start()
     {
         yield return new WaitUntil(() => BuildSceneNetworkState.Instance != null);
@@ -25,15 +33,38 @@ public class SceneLoader : NetworkBehaviour
         };
     }
 
-    public void OnHostStartGame()
+    [ServerRpc(RequireOwnership = false)]
+    public void ClientReadyUpServerRpc(ServerRpcParams rpcParams = default)
     {
-        if (IsHost)
+        Debug.Log($"Client {rpcParams.Receive.SenderClientId} is ready!");
+        isClientReady.Value = true;
+    }
+
+
+    public void OnClientReadyUp()
+    {
+        if (!IsHost)
         {
-            // Notify all clients to run the load process
-            LoadSceneClientRpc();
-            StartCoroutine(LoadYourAsyncScene());
+            Debug.Log("Client clicked Ready!");
+            ClientReadyUpServerRpc();
         }
     }
+
+    public void OnHostStartGame()
+    {
+        if (!IsHost) return;
+
+        if (!isClientReady.Value)
+        {
+            Debug.Log("Client is NOT ready. Cannot start.");
+            return;
+        }
+
+        LoadSceneClientRpc();
+        StartCoroutine(LoadYourAsyncScene());
+    }
+
+
 
     [ClientRpc]
     void LoadSceneClientRpc()
