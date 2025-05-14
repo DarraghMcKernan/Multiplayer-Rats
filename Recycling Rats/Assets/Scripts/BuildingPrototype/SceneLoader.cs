@@ -29,7 +29,38 @@ public class SceneLoader : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+            foreach (Rigidbody rb in cockpit)
+            {
+                if (rb != null)
+                {
+                    rb.useGravity = true;
+                    rb.isKinematic = false;
+                }
+            }
+
+            CarMovement.movingAllowed = true;
+
+            if (Car.tag == "Left Car")
+            {
+                Car.transform.SetPositionAndRotation(new Vector3(-10f, 4f, 0), transform.rotation);
+            }
+            if (Enemy.tag == "Right Car")
+            {
+                Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
+            }
+
+            Car.AddComponent<CarMovement>();
+            Car.AddComponent<HealthManager>();
+            Enemy.AddComponent<CarMovement>();
+            Enemy.AddComponent<HealthManager>();
+
+            CarInstanceStore.hostCar = GameObject.FindWithTag("Left Car");
+            CarInstanceStore.clientCar = GameObject.FindWithTag("Right Car");
+
+            DontDestroyOnLoad(CarInstanceStore.hostCar);
+            DontDestroyOnLoad(CarInstanceStore.clientCar);
+
+            NetworkManager.Singleton.SceneManager.LoadScene("Battle Scene", LoadSceneMode.Single);
         }
     }
 
@@ -68,7 +99,6 @@ public class SceneLoader : MonoBehaviour
             {
                 rb.useGravity = true;
                 rb.isKinematic = false;
-                //SceneManager.MoveGameObjectToScene(rb.gameObject, SceneManager.GetSceneByName(SceneName));
             }
         }
 

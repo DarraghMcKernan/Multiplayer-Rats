@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.UIElements;
+using Unity.Netcode;
 
 public class GameManager : MonoBehaviour
 {
@@ -81,28 +82,57 @@ public class GameManager : MonoBehaviour
 
     private void setupEnemyCar()
     {
-        enemyCar = GameObject.Find("CarBuild (1)");
+        //enemyCar = GameObject.Find("CarBuild (1)");
 
-        enemyCarSpawn = enemyCar.transform.position;
-        enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
+        //enemyCarSpawn = enemyCar.transform.position;
+        //enemyCarCopy = Instantiate(enemyCar, enemyCarSpawn, enemyCar.transform.rotation);
 
-        enemyCarCopy.SetActive(false);
+        //enemyCarCopy.SetActive(false);
 
     }
 
     private void setupPlayerCar()
     {
-        playerCar = GameObject.Find("CarBuild");
+        //playerCar = GameObject.Find("CarBuild");
 
-        playerCarSpawn = playerCar.transform.position;
-        playerCarCopy = Instantiate(playerCar, playerCarSpawn, playerCar.transform.rotation);
+        //playerCarSpawn = playerCar.transform.position;
+        //playerCarCopy = Instantiate(playerCar, playerCarSpawn, playerCar.transform.rotation);
 
-        playerCarCopy.SetActive(false);
+        //playerCarCopy.SetActive(false);
 
     }
 
     private void Start()
     {
+        if (Unity.Netcode.NetworkManager.Singleton.IsHost)
+        {
+            if (CarInstanceStore.hostCar != null)
+            {
+                GameObject hostCar = Instantiate(CarInstanceStore.hostCar, playerCarSpawn, Quaternion.identity);
+                var hostNetObj = hostCar.GetComponent<NetworkObject>();
+                if (hostNetObj != null && !hostNetObj.IsSpawned)
+                    hostNetObj.Spawn(true);
+            }
+
+            if (CarInstanceStore.clientCar != null)
+            {
+                ulong clientId = 0;
+                foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+                {
+                    if (client.ClientId != NetworkManager.Singleton.LocalClientId)
+                    {
+                        clientId = client.ClientId;
+                        break;
+                    }
+                }
+
+                GameObject clientCar = Instantiate(CarInstanceStore.clientCar, enemyCarSpawn, Quaternion.identity);
+                var clientNetObj = clientCar.GetComponent<NetworkObject>();
+                if (clientNetObj != null && !clientNetObj.IsSpawned)
+                    clientNetObj.SpawnWithOwnership(clientId);
+            }
+        }
+
         dataSent = false;
         //if (Random.Range(0, 2) == 1)
         //{
@@ -136,10 +166,10 @@ public class GameManager : MonoBehaviour
         playerCar = GameObject.Find("CarBuild");
 
         playerCarSpawn = enemyCar.transform.position;
-        playerCarCopy = Instantiate(enemyCar, playerCarSpawn, enemyCar.transform.rotation);
+        //playerCarCopy = Instantiate(enemyCar, playerCarSpawn, enemyCar.transform.rotation);
         //playerCarCopy = carObject.gameObject;
-        playerCarCopy.SetActive(false);
-        winfx.SetActive(false);
+        //playerCarCopy.SetActive(false);
+        //winfx.SetActive(false);
 
         playerPartCount = playerCar.transform.childCount;
         enemyPartCount = enemyCar.transform.childCount;
@@ -295,13 +325,13 @@ public class GameManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))//debug
             {
-                Destroy(enemyCar);
+                //Destroy(enemyCar);
                 //enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, this.transform.rotation);
-                enemyCar.SetActive(true);
+                //enemyCar.SetActive(true);
 
-                Destroy(playerCar);
-                playerCar = Instantiate(playerCarCopy, playerCarSpawn, this.transform.rotation);
-                playerCar.SetActive(true);
+                //Destroy(playerCar);
+                //playerCar = Instantiate(playerCarCopy, playerCarSpawn, this.transform.rotation);
+                //playerCar.SetActive(true);
             }
             check();
         }
@@ -313,7 +343,7 @@ public class GameManager : MonoBehaviour
         {
             if (jumpUsed == false)
             {
-                boing.Play();
+                //boing.Play();
                 foreach (Transform child in playerCar.transform)
                 {
                     Rigidbody rb = child.GetComponent<Rigidbody>();
@@ -381,11 +411,11 @@ public class GameManager : MonoBehaviour
         Destroy(enemyCar);
         Destroy(playerCar);
 
-        enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
-        enemyCar.SetActive(true);
+        //enemyCar = Instantiate(enemyCarCopy, enemyCarSpawn, enemyCarCopy.transform.rotation);
+        //enemyCar.SetActive(true);
 
-        playerCar = Instantiate(playerCarCopy, playerCarSpawn, playerCarCopy.transform.rotation);
-        playerCar.SetActive(true);
+        //playerCar = Instantiate(playerCarCopy, playerCarSpawn, playerCarCopy.transform.rotation);
+        //playerCar.SetActive(true);
 
 
         foreach (Transform child in playerCar.transform)

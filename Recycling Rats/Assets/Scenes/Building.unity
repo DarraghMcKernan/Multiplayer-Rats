@@ -2573,6 +2573,7 @@ GameObject:
   - component: {fileID: 225998817}
   - component: {fileID: 225998816}
   - component: {fileID: 225998815}
+  - component: {fileID: 225998818}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -2622,7 +2623,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 0}
-    PlayerPrefab: {fileID: 2770259880814324669, guid: 0ca70712b5a6baf46861ce9b7896932a, type: 3}
+    PlayerPrefab: {fileID: 3442313210008316687, guid: 6d7dbea695618ef4eacfb74ec3a9db34, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 4414224030945b74596b75ee3e5d640c, type: 2}
@@ -2659,6 +2660,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &225998818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225998814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8c021a6a23ac8419a3f63df5354349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &228815516
 GameObject:
   m_ObjectHideFlags: 0
@@ -19129,7 +19142,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 525357983}
         m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: loadScene
+        m_MethodName: OnHostStartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
