@@ -1542,8 +1542,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 133822907}
-  - component: {fileID: 133822908}
-  - component: {fileID: 133822909}
   m_Layer: 0
   m_Name: CarBuild
   m_TagString: Left Car
@@ -1567,58 +1565,6 @@ Transform:
   - {fileID: 791589327}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &133822908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133822906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1224506680
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &133822909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133822906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!1 &142213469
 GameObject:
   m_ObjectHideFlags: 0
@@ -6867,7 +6813,6 @@ GameObject:
   - component: {fileID: 525357986}
   - component: {fileID: 525357987}
   - component: {fileID: 525357988}
-  - component: {fileID: 525357989}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -6920,15 +6865,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525357980}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c694355a004c7014eb6815e54d3c8973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: Battle Scene
   Car: {fileID: 133822906}
-  cockpit:
-  - {fileID: 0}
+  cockpit: {fileID: 791589331}
   Enemy: {fileID: 919686747}
   startGameButton: {fileID: 0}
 --- !u!114 &525357984
@@ -7017,19 +6961,6 @@ MonoBehaviour:
   boosterPrefab: {fileID: 2460030712788438274, guid: b358cc9d9fd151641b558508a5f8d276, type: 3}
   armourPrefab: {fileID: 4484657082720091832, guid: f6f416a089a53ce4796dbe1808089169, type: 3}
   springPrefab: {fileID: 4597801786364774928, guid: 9de28ce4450a1354aa7829873ed446e5, type: 3}
---- !u!114 &525357989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 525357980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cebd8cde25efb5d45b70bf15e817059f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myButton: {fileID: 1758480916}
 --- !u!1 &538532451
 GameObject:
   m_ObjectHideFlags: 0
@@ -10779,8 +10710,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 919686748}
-  - component: {fileID: 919686749}
-  - component: {fileID: 919686750}
   m_Layer: 0
   m_Name: CarBuild (1)
   m_TagString: Right Car
@@ -10804,58 +10733,6 @@ Transform:
   - {fileID: 1762742574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &919686749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919686747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 551079478
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &919686750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919686747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!1 &927759593
 GameObject:
   m_ObjectHideFlags: 0

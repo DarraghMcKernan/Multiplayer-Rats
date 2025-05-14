@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unity.Netcode;
 
 public class LoadScene : MonoBehaviour
 {
@@ -16,10 +15,7 @@ public class LoadScene : MonoBehaviour
 
     void StartGamePressed()
     {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.SceneManager.LoadScene("Battle Scene", LoadSceneMode.Single);
-        }
+        SceneManager.LoadScene("Battle Scene");
     }
 
 }
