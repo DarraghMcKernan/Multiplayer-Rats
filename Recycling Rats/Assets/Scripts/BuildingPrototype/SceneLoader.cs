@@ -8,7 +8,7 @@ public class SceneLoader : MonoBehaviour
 {
     public string SceneName;
     public GameObject Car;
-    public Rigidbody cockpit;
+    public Rigidbody[] cockpit;
     public GameObject Enemy;
     public Button startGameButton;
 
@@ -36,12 +36,14 @@ public class SceneLoader : MonoBehaviour
     public void loadScene()
     {
         Car = GameObject.FindGameObjectWithTag("Left Car");
-        if (Car == null)
-        {
-            Car = GameObject.FindGameObjectWithTag("Right Car");
-        }
+        Enemy = GameObject.FindGameObjectWithTag("Right Car");
 
-        cockpit = GameObject.FindGameObjectWithTag("Cockpit").GetComponent<Rigidbody>();
+        GameObject[] cockpitObjects = GameObject.FindGameObjectsWithTag("Cockpit");
+        cockpit = new Rigidbody[cockpitObjects.Length];
+        for (int i = 0; i < cockpitObjects.Length; i++)
+        {
+            cockpit[i] = cockpitObjects[i].GetComponent<Rigidbody>();
+        }
 
         StartCoroutine(LoadYourAsyncScene());
     }
@@ -60,23 +62,38 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        cockpit.useGravity = true;
-        cockpit.isKinematic = false;
+        foreach (Rigidbody rb in cockpit)
+        {
+            if (rb != null)
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+                //SceneManager.MoveGameObjectToScene(rb.gameObject, SceneManager.GetSceneByName(SceneName));
+            }
+        }
+
         CarMovement.movingAllowed = true;
 
         if (Car.tag == "Left Car")
         {
             Car.transform.SetPositionAndRotation(new Vector3(-10f, 4f, 0), transform.rotation);
         }
-        if (Car.tag == "Right Car")
+        if (Enemy.tag == "Right Car")
         {
-            Car.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
+            Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
         }
 
         Car.AddComponent<CarMovement>();
         Car.AddComponent<HealthManager>();
+        Enemy.AddComponent<CarMovement>();
+        Enemy.AddComponent<HealthManager>();
+
+        //Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0f), transform.rotation);
+
+        SceneManager.MoveGameObjectToScene(Enemy, SceneManager.GetSceneByName(SceneName));
 
         SceneManager.MoveGameObjectToScene(Car, SceneManager.GetSceneByName(SceneName));
+
         SceneManager.UnloadSceneAsync(currentScene);
     }
 }

@@ -28,6 +28,7 @@ public class LoadPart : MonoBehaviour
 
     GameObject parts;
 
+    private string currentPartType = "";
     public static bool createJoint = false;
     bool partHeld = false;
     bool grabbed = false;
@@ -138,6 +139,16 @@ public class LoadPart : MonoBehaviour
             createJoint = true;
             partHeld = false;
             grabbed = false;
+
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                Vector3 pos = parts.transform.position;
+                Vector3 rot = parts.transform.rotation.eulerAngles;
+
+                FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc(currentPartType, pos, rot);
+
+                createJoint = true;
+            }
         }
     }
 
@@ -153,10 +164,28 @@ public class LoadPart : MonoBehaviour
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(0, 0, 0);
 
-            parts = Instantiate(bodyPrefab, CarBuild.transform);
+            GameObject parent;
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                parent = GameObject.FindWithTag("Right Car");
+            }
+            else
+            {
+                parent = CarBuild;
+            }
+
+            currentPartType = "body";
+
+            parts = Instantiate(bodyPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x, piecePosition.y, 0);
             parts.transform.rotation = Quaternion.identity;
             parts.transform.localScale = new Vector3(1, 1, 1);
+
+            //if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            //{
+            //    Vector3 rot = parts.transform.rotation.eulerAngles;
+            //    FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc("body", parts.transform.position, rot);
+            //}
 
             Input.ResetInputAxes();
 
@@ -176,7 +205,19 @@ public class LoadPart : MonoBehaviour
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(2, 0, 0);
 
-            parts = Instantiate(wheelPrefab, CarBuild.transform);
+            GameObject parent;
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                parent = GameObject.FindWithTag("Right Car");
+            }
+            else
+            {
+                parent = CarBuild;
+            }
+
+            currentPartType = "wheel";
+
+            parts = Instantiate(wheelPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(90, 0, 0);
             parts.transform.localScale = new Vector3(1, 1, 1);
@@ -197,7 +238,19 @@ public class LoadPart : MonoBehaviour
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(4, 0, 0);
 
-            parts = Instantiate(spikePrefab, CarBuild.transform);
+            GameObject parent;
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                parent = GameObject.FindWithTag("Right Car");
+            }
+            else
+            {
+                parent = CarBuild;
+            }
+
+            currentPartType = "spike";
+
+            parts = Instantiate(spikePrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(0, 0, 0);
             parts.transform.localScale = new Vector3(1, 1, 1);
@@ -218,7 +271,19 @@ public class LoadPart : MonoBehaviour
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(6, 0, 0);
 
-            parts = Instantiate(boosterPrefab, CarBuild.transform);
+            GameObject parent;
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                parent = GameObject.FindWithTag("Right Car");
+            }
+            else
+            {
+                parent = CarBuild;
+            }
+
+            currentPartType = "booster";
+
+            parts = Instantiate(boosterPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(0, 0, 0);
             parts.transform.localScale = new Vector3(1, 1, 1);
@@ -239,7 +304,19 @@ public class LoadPart : MonoBehaviour
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(8, 0, 0);
 
-            parts = Instantiate(armourPrefab, CarBuild.transform);
+            GameObject parent;
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                parent = GameObject.FindWithTag("Right Car");
+            }
+            else
+            {
+                parent = CarBuild;
+            }
+
+            currentPartType = "armour";
+
+            parts = Instantiate(armourPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(0, 0, 0);
             parts.transform.localScale = new Vector3(1, 1, 1);
@@ -271,6 +348,8 @@ public class LoadPart : MonoBehaviour
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(11, 0, 0);
+
+            currentPartType = "spring";
 
             parts = Instantiate(springPrefab, CarBuild.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);

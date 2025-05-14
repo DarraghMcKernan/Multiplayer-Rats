@@ -10,12 +10,12 @@ public class CarDataManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //if (Instance != null)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
+        //Instance = this;
+        //DontDestroyOnLoad(gameObject);
     }
 }
