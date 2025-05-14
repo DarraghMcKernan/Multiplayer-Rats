@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : NetworkBehaviour
 {
     public string SceneName;
     public GameObject Car;
@@ -27,9 +27,29 @@ public class SceneLoader : MonoBehaviour
 
     public void OnHostStartGame()
     {
-        if (NetworkManager.Singleton.IsHost)
+        if (IsHost)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(SceneName, LoadSceneMode.Single);
+            // Notify all clients to run the load process
+            LoadSceneClientRpc();
+            StartCoroutine(LoadYourAsyncScene());
+        }
+    }
+
+    [ClientRpc]
+    void LoadSceneClientRpc()
+    {
+        if (!IsHost)
+        {
+            Car = GameObject.FindGameObjectWithTag("Left Car");
+            Enemy = GameObject.FindGameObjectWithTag("Right Car");
+
+            GameObject[] cockpitObjects = GameObject.FindGameObjectsWithTag("Cockpit");
+            cockpit = new Rigidbody[cockpitObjects.Length];
+            for (int i = 0; i < cockpitObjects.Length; i++)
+            {
+                cockpit[i] = cockpitObjects[i].GetComponent<Rigidbody>();
+            }
+            StartCoroutine(LoadYourAsyncScene());
         }
     }
 
@@ -45,15 +65,11 @@ public class SceneLoader : MonoBehaviour
             cockpit[i] = cockpitObjects[i].GetComponent<Rigidbody>();
         }
 
-        StartCoroutine(LoadYourAsyncScene());
+        OnHostStartGame();
     }
 
     IEnumerator LoadYourAsyncScene()
     {
-        GameObject enemyCarOnePrefab = Resources.Load<GameObject>("Enemy Car One");
-        GameObject enemyCarTwoPrefab = Resources.Load<GameObject>("Enemy Car Two");
-        GameObject enemyCarThreePrefab = Resources.Load<GameObject>("Enemy Car Three");
-
         Scene currentScene = SceneManager.GetActiveScene();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
 
@@ -68,31 +84,39 @@ public class SceneLoader : MonoBehaviour
             {
                 rb.useGravity = true;
                 rb.isKinematic = false;
-                //SceneManager.MoveGameObjectToScene(rb.gameObject, SceneManager.GetSceneByName(SceneName));
             }
         }
 
         CarMovement.movingAllowed = true;
 
-        if (Car.tag == "Left Car")
+        if (Car != null && Car.tag == "Left Car")
         {
             Car.transform.SetPositionAndRotation(new Vector3(-10f, 4f, 0), transform.rotation);
         }
-        if (Enemy.tag == "Right Car")
+        if (Enemy != null && Enemy.tag == "Right Car")
         {
             Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0), transform.rotation);
         }
 
-        Car.AddComponent<CarMovement>();
-        Car.AddComponent<HealthManager>();
-        Enemy.AddComponent<CarMovement>();
-        Enemy.AddComponent<HealthManager>();
+        if (Car != null)
+        {
+            if (!Car.GetComponent<CarMovement>()) Car.AddComponent<CarMovement>();
+            if (!Car.GetComponent<HealthManager>()) Car.AddComponent<HealthManager>();
+        }
 
-        //Enemy.transform.SetPositionAndRotation(new Vector3(10f, 4f, 0f), transform.rotation);
+        if (Enemy != null)
+        {
+            if (!Enemy.GetComponent<CarMovement>()) Enemy.AddComponent<CarMovement>();
+            if (!Enemy.GetComponent<HealthManager>()) Enemy.AddComponent<HealthManager>();
+        }
 
-        SceneManager.MoveGameObjectToScene(Enemy, SceneManager.GetSceneByName(SceneName));
+        if (Car != null)
+            SceneManager.MoveGameObjectToScene(Car, SceneManager.GetSceneByName(SceneName));
 
-        SceneManager.MoveGameObjectToScene(Car, SceneManager.GetSceneByName(SceneName));
+        if (Enemy != null)
+            SceneManager.MoveGameObjectToScene(Enemy, SceneManager.GetSceneByName(SceneName));
+
+        yield return new WaitForSeconds(1f);
 
         SceneManager.UnloadSceneAsync(currentScene);
     }

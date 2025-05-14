@@ -31,6 +31,25 @@ public class ClientPartSync : NetworkBehaviour
         LoadPart.createJoint = true;
     }
 
+    [ClientRpc]
+    public void SpawnPartOnClientRpc(string partType, Vector3 position, Vector3 rotation)
+    {
+        GameObject prefab = GetPrefab(partType);
+        if (prefab == null) return;
+
+        GameObject leftcar = GameObject.FindWithTag("Left Car");
+        if (leftcar == null)
+        {
+            Debug.LogWarning("Host: Right Car not found.");
+            return;
+        }
+
+        GameObject clone = Instantiate(prefab, position, Quaternion.Euler(rotation), leftcar.transform);
+        clone.transform.localScale = Vector3.one;
+
+        LoadPart.createJoint = true;
+    }
+
     private GameObject GetPrefab(string type)
     {
         return type switch

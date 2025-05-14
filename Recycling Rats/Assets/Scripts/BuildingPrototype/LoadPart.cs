@@ -140,13 +140,17 @@ public class LoadPart : MonoBehaviour
             partHeld = false;
             grabbed = false;
 
+            Vector3 pos = parts.transform.position;
+            Vector3 rot = parts.transform.rotation.eulerAngles;
+
             if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
             {
-                Vector3 pos = parts.transform.position;
-                Vector3 rot = parts.transform.rotation.eulerAngles;
-
                 FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc(currentPartType, pos, rot);
-
+                createJoint = true;
+            }
+            else if(Unity.Netcode.NetworkManager.Singleton.IsHost)
+            {
+                FindObjectOfType<ClientPartSync>().SpawnPartOnClientRpc(currentPartType, pos, rot);
                 createJoint = true;
             }
         }
