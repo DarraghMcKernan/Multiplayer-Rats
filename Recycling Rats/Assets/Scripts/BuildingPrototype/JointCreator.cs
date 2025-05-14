@@ -13,14 +13,10 @@ public class JointCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cockpit = GameObject.FindGameObjectWithTag("Cockpit");
+        CarGameObj = GetTopmostParent(this.gameObject);
 
-        CarGameObj = GameObject.FindGameObjectWithTag("Left Car");
-        if(CarGameObj == null)
-        {
-            CarGameObj = GameObject.FindGameObjectWithTag("Right Car");
-        }
-        
+        cockpit = FindCockpit(CarGameObj);
+
         carCompnents = new List<GameObject>();
 
         //get all the children but do not add ourself
@@ -31,6 +27,30 @@ public class JointCreator : MonoBehaviour
                 carCompnents.Add(child.gameObject);
             }
         }
+    }
+
+    private GameObject FindCockpit(GameObject root)
+    {
+        foreach (Transform child in root.GetComponentsInChildren<Transform>())
+        {
+            if (child.CompareTag("Cockpit"))
+            {
+                return child.gameObject;
+            }
+        }
+
+        Debug.LogWarning("No Cockpit found under car root.");
+        return null;
+    }
+
+    private GameObject GetTopmostParent(GameObject obj)
+    {
+        Transform current = obj.transform;
+        while (current.parent != null)
+        {
+            current = current.parent;
+        }
+        return current.gameObject;
     }
 
     // Update is called once per frame

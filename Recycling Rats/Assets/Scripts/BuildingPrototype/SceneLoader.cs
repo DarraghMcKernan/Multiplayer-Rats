@@ -8,7 +8,7 @@ public class SceneLoader : MonoBehaviour
 {
     public string SceneName;
     public GameObject Car;
-    public Rigidbody cockpit;
+    public Rigidbody[] cockpit;
     public GameObject Enemy;
     public Button startGameButton;
 
@@ -38,7 +38,12 @@ public class SceneLoader : MonoBehaviour
         Car = GameObject.FindGameObjectWithTag("Left Car");
         Enemy = GameObject.FindGameObjectWithTag("Right Car");
 
-        cockpit = GameObject.FindGameObjectWithTag("Cockpit").GetComponent<Rigidbody>();
+        GameObject[] cockpitObjects = GameObject.FindGameObjectsWithTag("Cockpit");
+        cockpit = new Rigidbody[cockpitObjects.Length];
+        for (int i = 0; i < cockpitObjects.Length; i++)
+        {
+            cockpit[i] = cockpitObjects[i].GetComponent<Rigidbody>();
+        }
 
         StartCoroutine(LoadYourAsyncScene());
     }
@@ -57,8 +62,16 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
 
-        cockpit.useGravity = true;
-        cockpit.isKinematic = false;
+        foreach (Rigidbody rb in cockpit)
+        {
+            if (rb != null)
+            {
+                rb.useGravity = true;
+                rb.isKinematic = false;
+                //SceneManager.MoveGameObjectToScene(rb.gameObject, SceneManager.GetSceneByName(SceneName));
+            }
+        }
+
         CarMovement.movingAllowed = true;
 
         if (Car.tag == "Left Car")

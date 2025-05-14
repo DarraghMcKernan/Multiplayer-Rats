@@ -28,6 +28,7 @@ public class LoadPart : MonoBehaviour
 
     GameObject parts;
 
+    private string currentPartType = "";
     public static bool createJoint = false;
     bool partHeld = false;
     bool grabbed = false;
@@ -141,11 +142,12 @@ public class LoadPart : MonoBehaviour
 
             if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
             {
-                string partType = parts.name.ToLower().Contains("body") ? "body" : "unknown";
                 Vector3 pos = parts.transform.position;
                 Vector3 rot = parts.transform.rotation.eulerAngles;
 
-                FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc(partType, pos, rot);
+                FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc(currentPartType, pos, rot);
+
+                createJoint = true;
             }
         }
     }
@@ -171,6 +173,8 @@ public class LoadPart : MonoBehaviour
             {
                 parent = CarBuild;
             }
+
+            currentPartType = "body";
 
             parts = Instantiate(bodyPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x, piecePosition.y, 0);
@@ -211,6 +215,8 @@ public class LoadPart : MonoBehaviour
                 parent = CarBuild;
             }
 
+            currentPartType = "wheel";
+
             parts = Instantiate(wheelPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(90, 0, 0);
@@ -241,6 +247,8 @@ public class LoadPart : MonoBehaviour
             {
                 parent = CarBuild;
             }
+
+            currentPartType = "spike";
 
             parts = Instantiate(spikePrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
@@ -273,6 +281,8 @@ public class LoadPart : MonoBehaviour
                 parent = CarBuild;
             }
 
+            currentPartType = "booster";
+
             parts = Instantiate(boosterPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
             parts.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -303,6 +313,8 @@ public class LoadPart : MonoBehaviour
             {
                 parent = CarBuild;
             }
+
+            currentPartType = "armour";
 
             parts = Instantiate(armourPrefab, parent.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);
@@ -336,6 +348,8 @@ public class LoadPart : MonoBehaviour
             piecePosition = Camera.main.ScreenToWorldPoint(inputPos);
             piecePosition.y += pieceSpawnOffset;
             pieceOffset = new Vector3(11, 0, 0);
+
+            currentPartType = "spring";
 
             parts = Instantiate(springPrefab, CarBuild.transform);
             parts.transform.position = new Vector3(piecePosition.x + pieceOffset.x, piecePosition.y + pieceOffset.y, 0);

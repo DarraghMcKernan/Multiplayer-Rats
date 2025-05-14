@@ -27,6 +27,8 @@ public class ClientPartSync : NetworkBehaviour
 
         GameObject clone = Instantiate(prefab, position, Quaternion.Euler(rotation), rightCar.transform);
         clone.transform.localScale = Vector3.one;
+
+        LoadPart.createJoint = true;
     }
 
     private GameObject GetPrefab(string type)
