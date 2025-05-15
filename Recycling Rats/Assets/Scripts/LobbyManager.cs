@@ -78,7 +78,6 @@ public class LobbyUI : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            // Properly load the same scene for everyone using Netcode for GameObjects
             NetworkManager.Singleton.SceneManager.LoadScene("Building", LoadSceneMode.Single);
         }
     }

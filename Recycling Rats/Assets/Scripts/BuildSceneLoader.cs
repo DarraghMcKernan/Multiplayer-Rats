@@ -12,15 +12,6 @@ public class BuildSceneLoader : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    [ClientRpc]
-    public void LoadBuildSceneClientRpc()
-    {
-        if (!IsHost)
-        {
-            SceneManager.LoadScene("BuildingPlayer2", LoadSceneMode.Single);
-        }
-    }
-
     public void LoadHostBuildScene()
     {
         SceneManager.LoadScene("Building", LoadSceneMode.Single);

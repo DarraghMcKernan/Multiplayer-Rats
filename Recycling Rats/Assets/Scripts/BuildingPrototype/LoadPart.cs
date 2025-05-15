@@ -143,7 +143,7 @@ public class LoadPart : MonoBehaviour
             Vector3 pos = parts.transform.position;
             Vector3 rot = parts.transform.rotation.eulerAngles;
 
-            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)
+            if (Unity.Netcode.NetworkManager.Singleton.IsClient && !Unity.Netcode.NetworkManager.Singleton.IsHost)////////////////////////
             {
                 FindObjectOfType<ClientPartSync>().RequestPartSpawnServerRpc(currentPartType, pos, rot);
                 createJoint = true;
