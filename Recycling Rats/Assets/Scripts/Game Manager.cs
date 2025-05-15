@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public RawImage ABTestButtonLock;
     public RawImage ABTestButtonLock2;
 
-    public AudioSource boing;
+    //public AudioSource boing;
 
     private GameObject tempCarCopy;
     public TextMeshProUGUI winText;
@@ -101,6 +101,16 @@ public class GameManager : MonoBehaviour
 
         playerCarCopy.SetActive(false);
 
+    }
+
+    private IEnumerator PressStartButtonAfterDelay()
+    {
+        yield return new WaitForSeconds(5f);
+
+        if (startButton != null && startButton.gameObject.activeInHierarchy)
+        {
+            startButton.onClick.Invoke();
+        }
     }
 
     private void Start()
@@ -205,6 +215,8 @@ public class GameManager : MonoBehaviour
             Debug.Log(enemyHealthStates.Length);
         }
         else Debug.LogError("Enemy Healtbar not found");
+
+        StartCoroutine(PressStartButtonAfterDelay());
     }
 
     private void FixedUpdate()
@@ -315,7 +327,7 @@ public class GameManager : MonoBehaviour
         {
             if (jumpUsed == false)
             {
-                boing.Play();
+                //boing.Play();
                 foreach (Transform child in playerCar.transform)
                 {
                     Rigidbody rb = child.GetComponent<Rigidbody>();

@@ -13620,7 +13620,6 @@ MonoBehaviour:
   winfx: {fileID: 1096591249}
   ABTestButtonLock: {fileID: 2029010391}
   ABTestButtonLock2: {fileID: 467289737}
-  boing: {fileID: 1477268126}
   winText: {fileID: 1520454668}
   boosterButton: {fileID: 1375218180}
   jumpButton: {fileID: 1297339222}
@@ -13674,11 +13673,11 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477268121}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 07e5d011edf61484293fc843a66204e5, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
