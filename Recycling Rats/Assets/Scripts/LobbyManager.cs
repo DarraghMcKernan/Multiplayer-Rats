@@ -34,12 +34,21 @@ public class LobbyUI : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         string joinCode = task.Result;
         lobbyCode.text = "Lobby Code: " + joinCode;
+
+        if (NetworkManager.Singleton.IsHost)
+        {
+            joinButton.gameObject.SetActive(false);
+            joinCodeInput.gameObject.SetActive(false);
+        }
     }
 
     void StartRelayClient()
     {
+        player2Indicator.color = Color.yellow;
         string code = joinCodeInput.text;
         RelayManager.Instance.JoinRelay(code);
+        hostButton.gameObject.SetActive(false);
+        lobbyCode.text = "Lobby Code: " + code;
     }
 
     void OnClientConnected(ulong clientId)

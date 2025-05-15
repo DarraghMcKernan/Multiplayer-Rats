@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
     {
         if(allowedToStart == true)
         {
-            if (enemyWins + playerWins == 3)
+            if (enemyWins + playerWins == 1)
             {
                 if (enemyWins > playerWins)
                 {

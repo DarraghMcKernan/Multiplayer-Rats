@@ -11,6 +11,8 @@ public class SceneLoader : NetworkBehaviour
     public Rigidbody[] cockpit;
     public GameObject Enemy;
     public Button startGameButton;
+    public Image readyIconHost;
+    public Image readyIconClient;
 
     public NetworkVariable<bool> isClientReady = new NetworkVariable<bool>(
         false,
@@ -38,6 +40,8 @@ public class SceneLoader : NetworkBehaviour
     {
         Debug.Log($"Client {rpcParams.Receive.SenderClientId} is ready!");
         isClientReady.Value = true;
+        readyIconClient.color = Color.green;
+        readyIconHost.color = Color.green;
     }
 
 
@@ -45,6 +49,8 @@ public class SceneLoader : NetworkBehaviour
     {
         if (!IsHost)
         {
+            readyIconClient.color = Color.green;
+            readyIconHost.color = Color.green;
             Debug.Log("Client clicked Ready!");
             ClientReadyUpServerRpc();
         }

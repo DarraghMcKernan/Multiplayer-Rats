@@ -8,7 +8,7 @@ public class CollisionHandler : MonoBehaviour
     private Rigidbody rb;
     public Transform parentObj;
     public int health = 100;
-    public float collisionForce = 3;
+    public float collisionForce = 2;
 
     private void Start()
     {
@@ -23,6 +23,13 @@ public class CollisionHandler : MonoBehaviour
     private void FixedUpdate()
     {
         if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        float xPos = transform.position.x;
+        float yPos = transform.position.y;
+        if (xPos > 30f || xPos < -30f || yPos < -15f)
         {
             Destroy(gameObject);
         }
